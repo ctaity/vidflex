@@ -1,5 +1,13 @@
+import { Order } from '@models/order';
 import { Product } from '@models/product';
-import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { OrderService } from '@services/order.service';
 
 @Controller('order')
@@ -8,15 +16,19 @@ export class OrderController {
     @Inject('OrderService') private readonly orderService: OrderService,
   ) {}
 
-  @Get(':order_id')
+  @Get(':id_order')
   async getProductsFromOrder(
-    @Param('order_id') oid: string,
+    @Param('id_order', new ParseUUIDPipe()) id_order: string,
   ): Promise<Product[]> {
-    return await this.orderService.getProductsFromOrder(oid);
+    const products = await this.orderService.getProductsFromOrder(id_order);
+    return products;
   }
 
-  @Post()
-  async createOrderFromCart(): Promise<void> {
-    await this.orderService.createOrderFromCart();
+  @Post(':id_cart')
+  async createOrderFromCart(
+    @Param('id_cart', new ParseUUIDPipe()) id_cart,
+  ): Promise<Order> {
+    const order = await this.orderService.createOrderFromCart(id_cart);
+    return order;
   }
 }

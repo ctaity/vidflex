@@ -8,20 +8,18 @@ import { InjectModel } from 'nest-knexjs';
 export class CartRepository {
   constructor(@InjectModel() private readonly knex: Knex) {}
 
-  async getCartProduct(id: string): Promise<CartProduct> {
-    return await this.knex<CartProduct>('cart')
-      .where('id_product', id)
-      .select()
-      .first();
+  async getCartProduct(search: Partial<CartProduct>): Promise<CartProduct> {
+    return await this.knex<CartProduct>('cart').where(search).select().first();
   }
 
   async addProduct(product: Partial<CartProduct>): Promise<void> {
     await this.knex('cart').insert(product);
   }
 
-  async getProductsFromCart(): Promise<Product[]> {
+  async getProductsFromCart(id_cart: string): Promise<Product[]> {
     return await this.knex<Product>('product')
       .select()
+      .where('id_cart', id_cart)
       .innerJoin('cart', 'product.id', 'cart.id_product');
   }
 }

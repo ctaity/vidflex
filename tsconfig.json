@@ -9,13 +9,13 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@models/*": ["models/*"],
-      "@services/*": ["services/*"],
-      "@repositories/*": ["repositories/*"],
-      "@controllers/*": ["controllers/*"],
-      "@interactors/*": ["interactors/*"]
+      "@models/*": ["src/models/*"],
+      "@services/*": ["src/services/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@interactors/*": ["src/interactors/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

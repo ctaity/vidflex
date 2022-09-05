@@ -1,4 +1,4 @@
-import { Product } from 'models/product';
+import { Product } from '@models/product';
 import { CartService } from './cart.service';
 import {
   Injectable,
@@ -16,8 +16,8 @@ export class CartServiceDefaultImp implements CartService {
     private readonly cartRepository: CartRepository,
   ) {}
 
-  async getProducts(): Promise<Product[]> {
-    return await this.cartRepository.getProductsFromCart();
+  async getProducts(cart_id: string): Promise<Product[]> {
+    return await this.cartRepository.getProductsFromCart(cart_id);
   }
 
   async addProduct(cart_product: Partial<CartProduct>): Promise<void> {
@@ -27,9 +27,9 @@ export class CartServiceDefaultImp implements CartService {
         `the product id:${id_product} doesn't exists`,
       );
 
-    if (await this.cartRepository.getCartProduct(id_product))
+    if (await this.cartRepository.getCartProduct(cart_product))
       throw new PreconditionFailedException(
-        `the product id:${id_product} is in the cart`,
+        `the product id:${id_product} is in the id_cart:${cart_product.id_cart}`,
       );
     await this.cartRepository.addProduct(cart_product);
   }

@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: vidflex
+      POSTGRES_PASSWORD: vidflex
+      POSTGRES_DB: vidflex
+  vidflex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: localhost
+      DB_USER: vidflex
+      DB_PASSWORD: vidflex
+      DB_NAME: vidflex
+    ports:
+      - '3000:3000'
+    restart: always

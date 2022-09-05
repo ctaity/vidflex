@@ -1,4 +1,4 @@
-import { Product } from 'models/product';
+import { Product } from '@models/product';
 import { OrderService } from '@services/order.service';
 import {
   Injectable,
@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { OrderRepository } from '@repositories/orders.repository';
 import { CartRepository } from '@repositories/cart.repository';
+import { Order } from '@models/order';
 
 @Injectable()
 export class OrderServiceDefaultImp implements OrderService {
@@ -25,10 +26,12 @@ export class OrderServiceDefaultImp implements OrderService {
     return order_detail.map((detail) => detail.product_detail);
   }
 
-  async createOrderFromCart(): Promise<void> {
-    const products = await this.cartRepository.getProductsFromCart();
+  async createOrderFromCart(id_cart: string): Promise<Order> {
+    const products = await this.cartRepository.getProductsFromCart(id_cart);
     if (!products.length)
-      throw new PreconditionFailedException(`the cart doesn't have products`);
-    await this.orderRepository.createOrderWithProducts(products);
+      throw new PreconditionFailedException(
+        `the cart is empty or doesn't exists`,
+      );
+    return await this.orderRepository.createOrderWithProducts(products);
   }
 }
