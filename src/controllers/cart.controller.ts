@@ -16,20 +16,20 @@ export class CartController {
     @Inject('CartService') private readonly cartService: CartService,
   ) {}
 
-  @Get(':cart_id')
+  @Get(':id_cart')
   async getProductsFromCart(
-    @Param('cart_id', new ParseUUIDPipe()) cart_id: string,
+    @Param('id_cart', new ParseUUIDPipe()) id_cart: string,
   ): Promise<Product[]> {
-    return await this.cartService.getProducts(cart_id);
+    return await this.cartService.getProducts(id_cart);
   }
 
-  @Post(':cart_id/products/:product_id')
+  @Post(':id_cart/products/:id_product')
   async addProductToCart(
-    @Param('cart_id', new ParseUUIDPipe()) cart_id: string,
-    @Param('product_id', new ParseUUIDPipe()) product_id: string,
+    @Param('id_cart', new ParseUUIDPipe()) id_cart: string,
+    @Param('id_product', new ParseUUIDPipe()) id_product: string,
   ): Promise<void> {
     return await this.cartService.addProduct(
-      productIdToCartProduct(cart_id, product_id),
+      productIdToCartProduct(id_cart, id_product),
     );
   }
 }
