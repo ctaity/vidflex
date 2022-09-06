@@ -1,7 +1,10 @@
+import * as dotenv from 'dotenv';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { validate as isValidUUID } from 'uuid';
 import * as client from './client';
+
+dotenv.config();
 
 const UNDEFINED_FN = () => undefined;
 const uuidGuard = (value: string | string[]) => {
