@@ -10,7 +10,6 @@ import { CartRepository } from '@repositories/cart.repository';
 import { OrderRepository } from '@repositories/orders.repository';
 dotenv.config();
 
-console.log(process.env);
 @Module({
   imports: [
     KnexModule.forRoot({
